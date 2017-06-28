@@ -1,0 +1,7 @@
+{
+    "passwordsFile": "passwords.json",
+    "s3": {
+        "bucket": "dynamicyield",
+        "region": "eu-central-1"
+    }
+}
