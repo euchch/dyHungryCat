@@ -6,7 +6,7 @@ from oauth2client import tools, file, client
 import json
 
 # limited preview only (sorry!)
-API_DISCOVERY_FILE = '../gApi.json'
+API_DISCOVERY_FILE = 'gApi.json'
 
 """ Google Authentication Utilities """
 
@@ -14,8 +14,7 @@ def get_vision_api():
     credentials = get_api_credentials('https://www.googleapis.com/auth/cloud-platform')
     with open(API_DISCOVERY_FILE, 'r') as f:
         doc = f.read()
-    return discovery.build_from_document(doc, credentials=credentials, http=httplib2.Http())
-
+    return discovery.build_from_document(doc, credentials=credentials)
 
 def get_api_credentials(scope, service_account=True):
     """ Build API client based on oAuth2 authentication """
@@ -23,7 +22,7 @@ def get_api_credentials(scope, service_account=True):
     credentials = STORAGE.get()
     if credentials is None or credentials.invalid: #check if new oAuth flow is needed
         if service_account: #server 2 server flow
-            with open('service_account.json') as f:
+            with open(API_DISCOVERY_FILE) as f:
                 account = json.loads(f.read())
                 email = account['client_email']
                 key = account['private_key']
