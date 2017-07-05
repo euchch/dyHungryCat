@@ -8,6 +8,23 @@ import json
 # limited preview only (sorry!)
 API_DISCOVERY_FILE = 'gApi.json'
 
+#this function exists as stub until I'll get the google-vision api crap working
+def get_vision_api_stub(key):
+    import random
+    data = {}
+    data['responses'] = []
+    responses = {}
+    responses['labelAnnotations'] = []
+    labelsSize = random.randrange(20) + 1
+    for x in range(0, labelsSize):
+        labelAnnotations = {}
+        # labelAnnotations["description"] = random.choice(['fruits', 'meal', 'juice', 'produce', 'food', 'dog', 'vertebrate', 'mammal', 'night', 'fair', 'amusement park', 'apple pie', 'bread']) 
+        labelAnnotations["description"] = random.choice(['fruits']) 
+        labelAnnotations["score"] = (random.random() / 2) + 0.5
+        responses['labelAnnotations'].append(labelAnnotations)
+    data['responses'].append(responses)
+    return json.dumps(data)
+
 """ Google Authentication Utilities """
 
 def get_vision_api():

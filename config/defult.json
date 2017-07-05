@@ -2,6 +2,21 @@
     "passwordsFile": "passwords.json",
     "s3": {
         "bucket": "dynamicyield",
-        "region": "eu-central-1"
+        "region": "eu-central-1",
+        "statsBucket": "dynamicyieldstats",
+        "feedingStatsKey": "stats.json"
+    },
+    "feeding": {
+        "imageSuffix": ".jpg",
+        "minimumScore": 75,
+        "label": "fruits"
+    },
+    "notifications": {
+        "email": "yaakov.yehezkel@gmail.com"
+    },
+    "db":{
+        "host": "hungrycatdata.caqw8v8zcmk2.eu-central-1.rds.amazonaws.com",
+        "db": "hungryCat",
+        "table": "hcData"
     }
 }
