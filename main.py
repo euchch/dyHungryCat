@@ -5,28 +5,29 @@ import json
 import urllib
 import boto3
 from utils.hcGoogleCloudApi import get_vision_api_stub #, get_vision_api
-from utils.hcAwsS3Api import list_bucket # , getStatsJson, setStatsJson
+from utils.hcAwsS3Api import list_bucket, getKeyObject # , getStatsJson, setStatsJson
 from utils.hcImagesApi import read_image_base64
-from utils.hcMysqlApi import init, printRecords, addRecord, addRecordStub
+from utils.hcMysqlApi import addRecord
 
 def readConfigs():
-    with open('config/defult.json', 'r') as f:
-        config = json.load(f)
+	with open('config/defult.json', 'r') as f:
+		config = json.load(f)
 
-    with open(config["passwordsFile"], 'r') as f:
-        passwds = json.load(f)
+	with open(config["passwordsFile"], 'r') as f:
+		passwds = json.load(f)
 
-    config['passwords'] = passwds
-    return config
+	config['passwords'] = passwds
+	return config
 
 def updateDb(config, key):
 	from datetime import datetime
+	lastModified = datetime.strptime(key.last_modified, '%a, %d %b %Y %H:%M:%S %Z')
 	stats = {}
 	stats['foodName'] = key.name.encode('utf-8')
 	stats['updateTime'] = datetime.now()
 	stats['notificationSent'] = "false"
-	stats['lastModified'] = key.last_modified
-	stats['notificationSentTimeStamp'] = "1970-01-01T00:00:00.000Z"
+	stats['lastModified'] = lastModified
+	stats['notificationSentTimeStamp'] = datetime.min
 	addRecord(config, stats)
 
 def testImage(config, bucket, key):
@@ -66,15 +67,17 @@ def mainTest():
 
 def lambda_handler(event, context):
 	from pprint import pprint
-	pprint(vars(event))
-	pprint(vars(context))
 	config=readConfigs()
-	bucket = event["Records"][0]["s3"]["bucket"]["name"]
-	key = urllib.unquote_plus(event["Records"][0]["s3"]["object"]["key"].encode("utf8"))
-	pprint(vars(bucket))
-	pprint(vars(key))
+	record = event['Records'][0]
+	bucket = record["s3"]["bucket"]["name"]
+	key = urllib.unquote_plus(record["s3"]["object"]["key"].encode("utf8"))
+	keyObject = getKeyObject(config, key)
 	if testImage(config, bucket, key):
-		updateDb(config, key)
+		updateDb(config, keyObject)
 
 print('Loading function')
 s3 = boto3.client('s3')
+
+# For testing locally
+# varEvent = json.loads('{"Records": [{"awsRegion": "eu-central-1","eventName": "ObjectCreated:Put","eventSource": "aws:s3","eventTime": "2017-07-06T17:34:44.271Z","eventVersion": "2.0","requestParameters": {"sourceIPAddress": "159.253.248.232"},"responseElements": {"x-amz-id-2": "rlNtwjx16oYRNMEnTx4oJQMQAMWPL4mVVHGiu8K7m1wWdJfJeFK6NkQkNO769TU4DVxr5LSB8UA=","x-amz-request-id": "00F24A7F358C0C21"},"s3": {"bucket": {"arn": "arn:aws:s3:::dynamicyield","name": "dynamicyield","ownerIdentity": {"principalId": "A2G3BXRYVGPA6"}},"configurationId": "4b528f0b-447f-4aeb-bc29-994e58d616e4","object": {"eTag": "48e9fe8f275d74ac2ec08109b538b2e1","key": "three-strawberri.jpg","sequencer": "00595E74B422A717BB","size": 39198},"s3SchemaVersion": "1.0"},"userIdentity": {"principalId": "A2G3BXRYVGPA6"}}]}')
+# lambda_handler(varEvent, None)

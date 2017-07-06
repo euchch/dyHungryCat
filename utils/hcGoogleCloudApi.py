@@ -27,6 +27,7 @@ def get_vision_api_stub(key):
 
 """ Google Authentication Utilities """
 
+# Could not, for the life of me, make it work under windows enviroment
 def get_vision_api():
     credentials = get_api_credentials('https://www.googleapis.com/auth/cloud-platform')
     with open(API_DISCOVERY_FILE, 'r') as f:

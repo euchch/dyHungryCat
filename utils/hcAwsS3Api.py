@@ -28,14 +28,31 @@ def detect_potential_s3sigv4(func):
     return _wrapper
 
 def getBucket(config, bucket):
+    print("getBucket")
     from boto.s3.connection import S3Connection
     os.environ['S3_USE_SIGV4'] = 'True'
-    conn = S3Connection(config['passwords']['userAccessKey'],config['passwords']['userSecretAccessKey'],host='s3.eu-central-1.amazonaws.com')
-    return conn.get_bucket(bucket)
+    print("getBucket - before conn")
+    conn = S3Connection(config['passwords']['userAccessKey'],config['passwords']['userSecretAccessKey'],host='s3-eu-central-1.amazonaws.com')
+    print("getBucket - after conn")
+    # Without falsifying the flag - call sometimes get stuck as a lambda function
+    bucketObj = conn.get_bucket(bucket, validate=False)
+    return bucketObj
 
 def list_bucket(config):
     bucket = getBucket(config, config['s3']['bucket'])
     return bucket.list()
+
+def getKeyObject(config, keyName):
+    from pprint import pprint
+    print("getKeyObject")
+    bucket = getBucket(config, config['s3']['bucket'])
+    print("getKeyObject - before getKeyObject")
+    # Without falsifying the flag - call sometimes get stuck as a lambda function however - no information is returned, such as lastmodified date, which is crucial
+    statsJsonFileObj = bucket.get_key(keyName)
+    pprint(vars(statsJsonFileObj))
+    return statsJsonFileObj
+    
+# Was an attempt to work with a file rather than DB, however proverd to be much slower and not worth it
 
 # def getStatsJson(config):
 #     from pprint import pprint
