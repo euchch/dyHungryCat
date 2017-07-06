@@ -1,1 +1,7 @@
 pymysql
+boto3
+boto
+google-cloud-vision
+oauth2client
+pymysql
+google-api-python-client
