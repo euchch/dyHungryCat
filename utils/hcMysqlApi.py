@@ -14,7 +14,7 @@ def initDbConnection(config):
 # please note that you're supposed to get a connection here - so you're suppose to close it after using the function!
 # It's a bit ugly and could probably use refactoring - but it's better/faster than open a connection just for this test
 def isLatestDate(config, feedingDate, cursor):
-    sql = "SELECT COUNT(*) as count FROM " + config['db']['table'] + " WHERE 'lastModified' >= '" + feedingDate + "'"
+    sql = "SELECT COUNT(*) as count FROM " + config['db']['table'] + " WHERE lastModified >= '" + feedingDate + "'"
     print sql
     cursor.execute(sql)
     result = cursor.fetchone()
@@ -23,6 +23,19 @@ def isLatestDate(config, feedingDate, cursor):
         print ("Cat was fed at a later time than " + feedingDate + ", skipping...")
         return False
     return True
+
+def getLastFeeding(config):
+    connection = initDbConnection(config)
+    try:
+        with connection.cursor() as cursor:
+        # Read a single record
+            sql = "SELECT *, MAX(lastModified) FROM " + config['db']['table']
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            return result
+    finally:
+        connection.close()
+    
 
 def printRecords(config):
     connection = initDbConnection(config)

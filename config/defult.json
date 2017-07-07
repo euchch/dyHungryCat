@@ -18,5 +18,15 @@
         "host": "hungrycatdata.caqw8v8zcmk2.eu-central-1.rds.amazonaws.com",
         "db": "hungryCat",
         "table": "hcData"
+    },
+    "ses": {
+        "region": "eu-west-1",
+        "sesServer": "email-smtp.eu-west-1.amazonaws.com",
+        "sesPort": "465",
+        "sesAccessKey": "AKIAIGSDEPN3J7G36JXQ",
+        "sender": "koby.yehezkel@gmail.com",
+        "receiver": "koby.yehezkel@gmail.com",
+        "subject": "The most important message you'll ever receive in the most important messages of the past, present and future, this is not a joke",
+        "body": "Dynamic-yilds's hungry cat was not fed for the past 15 minutes!!"
     }
 }
