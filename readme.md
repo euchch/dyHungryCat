@@ -1,13 +1,13 @@
 # DY's Hungry Cat
 
-This is an all-in-one project meant to handle Dynamic-Leads's hungry cat's diet,
-It will monitor the cat intake and notify owners when it is mal-nutritiond, carful - he needs a LOT of fuid and is pretty picky about it to!
+This is an all-in-one project meant to handle Dynamic-Yield's hungry cat's diet,
+It will monitor the cat intake and notify owners when it is mal-nutritiond, carful - he needs a LOT of food and is pretty picky about it to!
 
-This is the first time I'm writing anything (let alone AWS related) in Python - so be gentle with me and don't laugh to hard at my mistakes.
+This is the first time I'm writing anything (let alone AWS related) in Python - so be gentle with me and don't laugh too hard at my mistakes.
 
 ## Getting Started
 
-This mproject is built on top of main.py file, which includes a testing function (def) and 2 different handlers,
+This project is built on top of main.py file, which includes a testing function (def) and 2 different handlers,
 1 of the handlers is meant to be run on s3 files put event (or any other method you so choose such as listenning to an sqs queue)
 the 2 handler is meant to run every set time, probably every minute, to make sure the cat is not dying of hunger, the poor little thing
 
@@ -69,6 +69,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-Thank you, Dynamic leads for concidering me for a position in your company.
-Thank you, Whoever you are for surviving, possibly enjoying, reading all the way to here.
+Thank you, Dynamic yield for concidering me for a position in your company.
 Thank you for this interesting excersise, it was surprizingly frustarating as it was fun but I did enjoy lerearning and dealing with things I've never dealt with before
+Thank you, Whoever you are for surviving, possibly enjoying, reading all the way to here.
