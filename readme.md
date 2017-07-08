@@ -1,4 +1,4 @@
-# Project Title
+# DY's Hungry Cat
 
 This is an all-in-one project meant to handle Dynamic-Leads's hungry cat's diet,
 It will monitor the cat intake and notify owners when it is mal-nutritiond, carful - he needs a LOT of fuid and is pretty picky about it to!
