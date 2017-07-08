@@ -34,8 +34,8 @@ Before uploading python as a lambda function to aws - you must install it's prer
 inside the file requirements.txt there's a list of pip packages that are meant to be installed before zipping the folder and uploading it to Amazon,
 
 An example to quickly install all the packages:  
-<bash> `xargs -L 1 pip install -e . < requirements.txt  `  
-<powershell> `Get-Content .\requirements.txt | ForEach-Object {pip install -e . $_ }`  
+  * `xargs -L 1 pip install -e . < requirements.txt  `  
+  * `Get-Content .\requirements.txt | ForEach-Object {pip install -e . $_ }`  
 
 ## Running the tests
 
