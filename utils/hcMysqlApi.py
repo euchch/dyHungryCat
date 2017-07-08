@@ -29,13 +29,13 @@ def getLastFeeding(config):
     try:
         with connection.cursor() as cursor:
         # Read a single record
-            sql = "SELECT *, MAX(lastModified) FROM " + config['db']['table']
+            sql = "SELECT *, MAX(updateTime) FROM " + config['db']['table'] + " WHERE lastModified in (SELECT MAX(lastModified) FROM "  + config['db']['table'] + ")"
+            # "SELECT *, MAX(lastModified) FROM " + config['db']['table']
             cursor.execute(sql)
             result = cursor.fetchone()
             return result
     finally:
         connection.close()
-    
 
 def printRecords(config):
     connection = initDbConnection(config)

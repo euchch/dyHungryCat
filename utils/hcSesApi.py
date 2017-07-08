@@ -14,7 +14,7 @@ def sendMail(config):
 
     msg = msg + body
 
-    s = smtplib.SMTP_SSL(host, port, 'gmail.com')
+    s = smtplib.SMTP_SSL(host, port)
     s.set_debuglevel(1)
     s.login(user, pw)
 

@@ -69,7 +69,7 @@ def mainTest():
 # handler to deal with feeding notifications
 def lambda_feeding_handler(event, context):
 	config=readConfigs()
-	sendMail(config)
+	# sendMail(config)
 	lastFeedingRecord = getLastFeeding(config)
 	print(lastFeedingRecord)
 	# if(lastFeedingRecord['notificationSent'] == 'True'):
