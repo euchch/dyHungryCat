@@ -21,7 +21,8 @@ passwords.json:
     "gApiKey": "you google-api key <placeholder, will probably not be in use>",
     "rdsPassword": "your mysql user's password",
     "sesSecretKey": "secret key for mail sender user on amazon's ses service"
-}```
+}
+```
   
 gApi.json:  
 The json you get from google-cloud service when created oAuth2-able access
