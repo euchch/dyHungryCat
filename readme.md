@@ -15,7 +15,8 @@ the 2 handler is meant to run every set time, probably every minute, to make sur
 
 Since we all have different google api users, aws users etc, there are configuration files you must add yourself in the root folder:  
 passwords.json:  
-```{
+```
+{
     "userAccessKey": "your aws access key",
     "userSecretAccessKey": "your aws secret key",
     "gApiKey": "you google-api key <placeholder, will probably not be in use>",
@@ -33,8 +34,8 @@ Before uploading python as a lambda function to aws - you must install it's prer
 inside the file requirements.txt there's a list of pip packages that are meant to be installed before zipping the folder and uploading it to Amazon,
 
 An example to quickly install all the packages:  
-<bash> xargs -L 1 pip install -e . < requirements.txt  
-<powershell> Get-Content .\requirements.txt | ForEach-Object {pip install -e . $_ }
+`<bash> xargs -L 1 pip install -e . < requirements.txt  `
+`<powershell> Get-Content .\requirements.txt | ForEach-Object {pip install -e . $_ }`
 
 ## Running the tests
 
