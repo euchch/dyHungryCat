@@ -68,12 +68,14 @@ def mainTest():
 
 # handler to deal with feeding notifications
 def lambda_feeding_handler(event, context):
+	from datetime import datetime
 	config=readConfigs()
-	# sendMail(config)
 	lastFeedingRecord = getLastFeeding(config)
-	print(lastFeedingRecord)
-	# if(lastFeedingRecord['notificationSent'] == 'True'):
-		# return
+	if(lastFeedingRecord['notificationSent'] == 'false'):
+		lastFeedingRecord['notificationSent'] = 'true'
+		lastFeedingRecord['updateTime'] = datetime.now()
+		sendMail(config)
+		addRecord(config, lastFeedingRecord, skipTest=True)
 
 # handler to deal with files
 def lambda_handler(event, context):
@@ -93,4 +95,4 @@ s3 = boto3.client('s3')
 # varEvent = json.loads('{"Records": [{"awsRegion": "eu-central-1","eventName": "ObjectCreated:Put","eventSource": "aws:s3","eventTime": "2017-07-06T19:34:44.271Z","eventVersion": "2.0","requestParameters": {"sourceIPAddress": "159.253.248.232"},"responseElements": {"x-amz-id-2": "rlNtwjx16oYRNMEnTx4oJQMQAMWPL4mVVHGiu8K7m1wWdJfJeFK6NkQkNO769TU4DVxr5LSB8UA=","x-amz-request-id": "00F24A7F358C0C21"},"s3": {"bucket": {"arn": "arn:aws:s3:::dynamicyield","name": "dynamicyield","ownerIdentity": {"principalId": "A2G3BXRYVGPA6"}},"configurationId": "4b528f0b-447f-4aeb-bc29-994e58d616e4","object": {"eTag": "48e9fe8f275d74ac2ec08109b538b2e1","key": "123.jpg","sequencer": "00595E74B422A717BB","size": 39198},"s3SchemaVersion": "1.0"},"userIdentity": {"principalId": "A2G3BXRYVGPA6"}}]}')
 # lambda_handler(varEvent, None)
 
-lambda_feeding_handler(None, None)
+# lambda_feeding_handler(None, None)

@@ -37,6 +37,8 @@ An example to quickly install all the packages:
   * `xargs -L 1 pip install -e . < requirements.txt  `  
   * `Get-Content .\requirements.txt | ForEach-Object {pip install -e . $_ }`  
 
+Also, make a new database and use DBManagement.sql script to create the right table
+
 ## Running the tests
 
 There are no unit-testings for this project, you can run "maintest" or uncomment the lines that run the lambda function locally after setting up the event
@@ -74,3 +76,12 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Thank you, Dynamic yield for concidering me for a position in your company.  
 Thank you for this interesting excersise, it was surprizingly frustarating as it was fun but I did enjoy lerearning and dealing with things I've never dealt with before.  
 Thank you, Whoever you are for surviving, possibly enjoying, reading all the way to here.  
+
+## Skipped parts
+
+1.
+I could not make google-cloud api work on windows, I have tried for several days but even when I gave up and looked for a working example on github - it didn't work
+Probably missed something silly but due to time limit - will not be tested further as off now
+
+2.
+Lambda function does not read s3 for me even though it works locally, probably access issues are in order (running from local vpc and open access), it doesn't seems like a code issue

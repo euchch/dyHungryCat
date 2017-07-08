@@ -2,7 +2,6 @@ import pymysql.cursors
 import pymysql
 
 def initDbConnection(config):
-    print ("in dbInit")
     connection = pymysql.connect(host=config['db']['host'],
                              user='root',
                              password=config['passwords']['rdsPassword'],
@@ -28,9 +27,8 @@ def getLastFeeding(config):
     connection = initDbConnection(config)
     try:
         with connection.cursor() as cursor:
-        # Read a single record
-            sql = "SELECT *, MAX(updateTime) FROM " + config['db']['table'] + " WHERE lastModified in (SELECT MAX(lastModified) FROM "  + config['db']['table'] + ")"
-            # "SELECT *, MAX(lastModified) FROM " + config['db']['table']
+            # Read a single record, descending order so we'd get the last update that happened to the latest feeding
+            sql = "SELECT * FROM " + config['db']['table'] + " WHERE lastModified in (SELECT MAX(lastModified) FROM "  + config['db']['table'] + ") ORDER BY updateTime DESC"
             cursor.execute(sql)
             result = cursor.fetchone()
             return result
@@ -49,15 +47,16 @@ def printRecords(config):
     finally:
         connection.close()
 
-def addRecord(config, stats):
+def addRecord(config, stats, skipTest=False):
     from pprint import pprint
-    print ("in addRecord")
     connection = initDbConnection(config)
     try:
         with connection.cursor() as cursor:
         # Read a single record
-            if not isLatestDate(config, stats['lastModified'].strftime("%Y-%m-%d %H:%M:%S"), cursor):
-                return
+            if not skipTest:
+                print ("skipTest is false")
+                if not isLatestDate(config, stats['lastModified'].strftime("%Y-%m-%d %H:%M:%S"), cursor):
+                    return
             sql = "INSERT INTO " + config['db']['table'] + "(`foodName`, `updateTime`, `notificationSent`, `lastModified`, `notificationSentTimeStamp`) VALUES (%s, %s, %s, %s, %s)"
             pprint(stats)
             cursor.execute(sql, (stats['foodName'], stats['updateTime'], stats['notificationSent'], stats['lastModified'], stats['notificationSentTimeStamp']))
